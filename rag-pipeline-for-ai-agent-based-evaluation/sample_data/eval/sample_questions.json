@@ -1,0 +1,82 @@
+[
+  {
+    "question": "What paper introduced the Transformer architecture and in what year?",
+    "answer": "The Transformer was introduced in the 2017 paper 'Attention Is All You Need' by Vaswani et al."
+  },
+  {
+    "question": "What are the three vectors computed for each token in self-attention?",
+    "answer": "Query (Q), Key (K), and Value (V)."
+  },
+  {
+    "question": "What is the difference between encoder-only and decoder-only transformer models?",
+    "answer": "Encoder-only models (e.g. BERT) use bidirectional attention and are good for classification and embeddings. Decoder-only models (e.g. GPT, Gemini, Claude) use causal/autoregressive attention and are used for text generation."
+  },
+  {
+    "question": "What is Chain-of-Thought prompting and how do you trigger it zero-shot?",
+    "answer": "Chain-of-Thought prompting encourages the model to reason step by step before giving a final answer. Zero-shot CoT is triggered by adding 'Let's think step by step.' to the prompt."
+  },
+  {
+    "question": "What is the difference between zero-shot and few-shot prompting?",
+    "answer": "Zero-shot prompting asks the model to perform a task with no examples. Few-shot prompting provides a small number of input-output examples before the actual task."
+  },
+  {
+    "question": "What is RAG and what problem does it solve?",
+    "answer": "RAG (Retrieval-Augmented Generation) enhances LLM responses by retrieving relevant information from an external knowledge base. It solves problems like outdated knowledge, hallucination, and lack of access to private or domain-specific data."
+  },
+  {
+    "question": "What vector database is used in this project and why?",
+    "answer": "LanceDB is used. It is lightweight, file-based, and great for local and serverless use."
+  },
+  {
+    "question": "What embedding model is used in this project?",
+    "answer": "Google's text-embedding-004, which produces 768-dimensional embeddings and has strong multilingual support."
+  },
+  {
+    "question": "What is the ReAct prompting framework?",
+    "answer": "ReAct (Reason + Act) is a framework where the model alternates between reasoning steps and actions (like tool calls or web searches). The model generates a Thought, then an Action, observes the result, and repeats until it can give a final answer."
+  },
+  {
+    "question": "What is overfitting and how can it be prevented?",
+    "answer": "Overfitting is when a model memorises training data and performs poorly on new data (high variance). It can be prevented with regularisation techniques like L1/L2 regularisation, dropout, and early stopping."
+  },
+  {
+    "question": "What is the purpose of a validation set in machine learning?",
+    "answer": "The validation set is used to tune hyperparameters and prevent overfitting during training. It is separate from the test set, which is held out until the very end to estimate real-world performance."
+  },
+  {
+    "question": "What activation function is most commonly used in neural networks and what is the formula?",
+    "answer": "ReLU (Rectified Linear Unit) is most commonly used. The formula is max(0, x)."
+  },
+  {
+    "question": "What is cosine similarity in the context of embeddings?",
+    "answer": "Cosine similarity measures the angle between two vectors, ignoring magnitude. A score of 1 means very similar (identical direction), 0 means unrelated, and -1 means opposite."
+  },
+  {
+    "question": "What is HyDE in the context of RAG?",
+    "answer": "HyDE (Hypothetical Document Embeddings) is an advanced RAG technique where a hypothetical answer to the query is generated, embedded, and used to search the vector database. It often retrieves more relevant chunks than embedding the raw question."
+  },
+  {
+    "question": "What is temperature in LLM inference?",
+    "answer": "Temperature controls the sharpness of the probability distribution over the vocabulary. Temperature 0 gives greedy decoding (always highest probability token). Temperature 1 samples from the original distribution. High temperature gives more random, creative outputs; low temperature gives more focused, deterministic outputs."
+  },
+  {
+    "question": "What Python library is recommended for classical ML algorithms and preprocessing?",
+    "answer": "scikit-learn."
+  },
+  {
+    "question": "What is RLHF and why is it used?",
+    "answer": "RLHF (Reinforcement Learning from Human Feedback) is used to align LLMs with human preferences after pre-training. It improves helpfulness, safety, and instruction-following."
+  },
+  {
+    "question": "What LLM model is used for generation in this project?",
+    "answer": "Gemini 2.0 Flash (gemini-2.0-flash)."
+  },
+  {
+    "question": "What are the three main stages of a RAG pipeline?",
+    "answer": "Indexing (offline): loading, chunking, embedding and storing documents. Retrieval (online): embedding the query and finding similar chunks. Generation: injecting retrieved chunks as context and generating a response with an LLM."
+  },
+  {
+    "question": "What is self-supervised learning and how do LLMs use it?",
+    "answer": "Self-supervised learning is a form of unsupervised learning where the model creates its own supervision signal from the data structure. LLMs use it by predicting the next token — the target is derived from the input itself, requiring no manual labels."
+  }
+]

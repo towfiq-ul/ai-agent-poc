@@ -1,0 +1,73 @@
+services:
+
+  # ── Backend (FastAPI + RAG pipeline) ────────────────────────
+  backend:
+    build:
+      context: ../
+      dockerfile: backend/Dockerfile
+    container_name: ai_rag_poc_be
+    env_file:
+      - ../.env
+    environment:
+      LANCEDB_PATH:      /data/lancedb
+      SAMPLE_DATA_PATH:  /app/sample_data/source
+      CORS_ORIGINS:      "http://localhost:8000,http://frontend:8000"
+    volumes:
+      - lancedb_data:/data
+      - hf_cache:/root/.cache/huggingface
+      - ../sample_data:/app/sample_data:ro   # bind-mount sample data (read-only)
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 90s   # sentence-transformers model load can take a while on first start
+    restart: unless-stopped
+
+  # ── Frontend (Django + WhiteNoise) ───────────────────────────
+  frontend:
+    build:
+      context: ../
+      dockerfile: frontend/Dockerfile
+      args:
+        - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+    container_name: ai_rag_poc_fe
+    env_file:
+      - ../.env
+    environment:
+      BACKEND_API_URL:      "http://backend:8080"
+      DJANGO_ALLOWED_HOSTS: "localhost 127.0.0.1 frontend 0.0.0.0"
+      DJANGO_DEBUG:         "false"
+    # NOTE: No volume mount here — mounting ./frontend:/app would overwrite
+    # the collectstatic output built into the image. For live-reload in dev,
+    # use `make dev-frontend` instead (runs Django's runserver directly).
+    ports:
+      - "8000:8000"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ── Ollama (optional — local LLM, no API key needed) ─────────
+  # Activated with: docker compose --profile ollama up
+  # After starting: make pull-model
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    volumes:
+      - ollama_data:/root/.ollama
+    ports:
+      - "11434:11434"
+    restart: unless-stopped
+    profiles:
+      - ollama
+
+volumes:
+  lancedb_data:
+    driver: local
+  hf_cache:
+    driver: local
+  ollama_data:
+    driver: local

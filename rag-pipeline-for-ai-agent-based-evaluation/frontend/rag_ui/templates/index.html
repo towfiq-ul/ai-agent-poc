@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}RAG Pipeline — Chat{% endblock %}
+
+{% block content %}
+<div class="layout">
+
+  <!-- ── Sidebar ───────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <section class="panel">
+      <h2 class="panel-title">Knowledge Base</h2>
+
+      <div class="panel-section">
+        <p class="panel-label">Load sample data</p>
+        <button class="btn btn-primary btn-full" id="btn-sample">
+          Index sample docs
+        </button>
+      </div>
+
+      <div class="panel-section">
+        <p class="panel-label">Upload your files <span class="hint">.json .pdf .md .txt</span></p>
+        <label class="upload-zone" id="upload-zone">
+          <span class="upload-icon">↑</span>
+          <span class="upload-text">Drop files or click to browse</span>
+          <input type="file" id="file-input" multiple accept=".json,.pdf,.md,.txt" hidden />
+        </label>
+        <button class="btn btn-secondary btn-full" id="btn-upload" disabled>
+          Upload &amp; index
+        </button>
+      </div>
+
+      <div class="panel-section panel-section--danger">
+        <p class="panel-label">Danger zone</p>
+        <button class="btn btn-danger btn-full" id="btn-reset">
+          Reset database
+        </button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 class="panel-title">System</h2>
+      <dl class="meta-list">
+        <dt>Embeddings</dt>
+        <dd id="meta-embedding">{{ status.embedding_model|default:"—" }}</dd>
+        <dt>LLM Provider</dt>
+        <dd id="meta-provider">{{ status.llm_provider|default:"—" }}</dd>
+        <dt>Model</dt>
+        <dd id="meta-model">{{ status.llm_model|default:"—" }}</dd>
+      </dl>
+    </section>
+  </aside>
+
+  <!-- ── Chat area ─────────────────────────────────────────── -->
+  <div class="chat-wrap">
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-empty" id="chat-empty">
+        <div class="chat-empty-icon">◈</div>
+        <p class="chat-empty-title">Ask anything</p>
+        <p class="chat-empty-sub">Index some documents first, then type your question below.</p>
+      </div>
+    </div>
+
+    <form class="chat-form" id="chat-form" autocomplete="off">
+      {% csrf_token %}
+      <div class="chat-input-wrap">
+        <textarea
+          class="chat-input"
+          id="chat-input"
+          placeholder="Ask a question about your documents…"
+          rows="1"
+        ></textarea>
+        <button class="chat-send" type="submit" aria-label="Send">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M3 10L17 10M17 10L11 4M17 10L11 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <p class="chat-hint">
+        <kbd>Enter</kbd> to send &nbsp;·&nbsp; <kbd>Shift+Enter</kbd> for new line
+      </p>
+    </form>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/chat.js' %}"></script>
+{% endblock %}

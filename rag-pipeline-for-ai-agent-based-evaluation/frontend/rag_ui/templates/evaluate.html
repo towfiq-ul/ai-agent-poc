@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}RAG Pipeline — Evaluate{% endblock %}
+
+{% block content %}
+<div class="eval-layout">
+
+  <header class="eval-header">
+    <h1 class="page-title">Evaluation</h1>
+    <p class="page-sub">Run the Q&amp;A test suite against your indexed knowledge base.</p>
+  </header>
+
+  <div class="eval-controls">
+    <label class="upload-zone upload-zone--wide" id="eval-upload-zone">
+      <span class="upload-icon">↑</span>
+      <span class="upload-text">Upload a <code>questions.json</code> file — or use the built-in sample below</span>
+      <input type="file" id="eval-file-input" accept=".json" hidden />
+    </label>
+
+    <div class="eval-actions">
+      <button class="btn btn-secondary" id="btn-load-sample-eval">
+        Use sample questions
+      </button>
+      <button class="btn btn-primary" id="btn-run-eval" disabled>
+        Run evaluation
+      </button>
+    </div>
+  </div>
+
+  <!-- Score summary — hidden until a run completes -->
+  <div class="score-card" id="score-card" hidden>
+    <div class="score-left">
+      <div class="score-number" id="score-number">—</div>
+      <div class="score-label">correct answers</div>
+    </div>
+    <div class="score-right">
+      <div class="score-bar-wrap">
+        <div class="score-bar" id="score-bar"></div>
+      </div>
+      <div class="score-pct" id="score-pct"></div>
+    </div>
+  </div>
+
+  <!-- Spinner shown while eval is running -->
+  <div class="eval-spinner" id="eval-spinner" hidden>
+    <div class="spinner"></div>
+    <p>Running evaluation… this may take a few minutes.</p>
+  </div>
+
+  <!-- Results table — hidden until a run completes -->
+  <div class="results-wrap" id="results-wrap" hidden>
+    <table class="results-table">
+      <thead>
+        <tr>
+          <th class="col-status"></th>
+          <th class="col-question">Question</th>
+          <th class="col-response">Response</th>
+          <th class="col-expected">Expected</th>
+          <th class="col-reasoning">Reasoning</th>
+        </tr>
+      </thead>
+      <tbody id="results-body"></tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/evaluate.js' %}"></script>
+{% endblock %}

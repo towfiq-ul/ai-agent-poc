@@ -1,0 +1,12 @@
+lancedb>=0.17.0
+pyarrow>=18.0.0
+python-dotenv>=1.0.1
+requests>=2.32.0
+pydantic>=2.0.0
+sentence-transformers>=3.0.0
+tqdm>=4.66.0
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+python-multipart>=0.0.9   # required for FastAPI file uploads
+groq>=0.9.0               # only used when LLM_PROVIDER=groq
+pymupdf>=1.24.0

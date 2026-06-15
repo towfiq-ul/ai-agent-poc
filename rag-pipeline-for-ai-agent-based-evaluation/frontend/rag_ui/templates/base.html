@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}RAG Pipeline{% endblock %}</title>
+  {% load static %}
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 fill=%22%2300d4aa%22>◈</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="/" class="nav-brand">
+      <span class="nav-brand-icon">◈</span>
+      <span class="nav-brand-name">RAG<em>pipeline</em></span>
+    </a>
+    <div class="nav-links">
+      <a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">Chat</a>
+      <a href="/evaluate/" class="nav-link {% if request.path == '/evaluate/' %}active{% endif %}">Evaluate</a>
+    </div>
+    <div class="nav-status" id="nav-status">
+      <span class="status-dot" id="status-dot"></span>
+      <span id="status-label">checking…</span>
+    </div>
+  </nav>
+
+  <main class="main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <script src="{% static 'js/status.js' %}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
