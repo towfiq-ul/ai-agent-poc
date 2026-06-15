@@ -1,0 +1,22 @@
+services:
+  rag:
+    build: .
+    # Override the default ENTRYPOINT to drop into a shell for development.
+    # For one-shot CLI use, pass the command directly:
+    #   docker compose run --rm rag run
+    #   docker compose run --rm rag query "What is RAG?"
+    env_file:
+      - .env
+    environment:
+      # Tell datastore.py where to write LanceDB files inside the container.
+      # This must match the VOLUME declared in the Dockerfile.
+      LANCEDB_PATH: /data/lancedb
+    volumes:
+      # Named volume — persists the LanceDB database across container restarts.
+      - lancedb_data:/data
+      # Bind-mount sample data so you can edit it without rebuilding the image.
+      - ./sample_data:/app/sample_data:ro
+
+volumes:
+  lancedb_data:
+    driver: local

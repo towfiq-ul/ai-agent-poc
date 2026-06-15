@@ -1,0 +1,7 @@
+lancedb>=0.17.0
+pyarrow>=18.0.0
+python-dotenv>=1.0.1
+requests>=2.32.0
+google-genai>=1.0.0
+pydantic>=2.0.0
+protobuf>=4.25.0
